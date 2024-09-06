@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:todo_app/model/task_model.dart';
 import 'package:todo_app/utils/app_color.dart';
+import 'package:todo_app/view/edit_note_view.dart';
 import 'package:todo_app/widgets/custom_icon_button.dart';
 
 class ListViewItem extends StatelessWidget {
+  final TaskModel taskModel;
   const ListViewItem({
     super.key,
+    required this.taskModel,
   });
 
   @override
@@ -21,16 +25,24 @@ class ListViewItem extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 22, horizontal: 20),
           child: Row(
             children: [
-              const Column(
+              Column(
                 children: [
-                  Text("data"),
-                  Text("data"),
+                  Text(taskModel.title),
+                  Text(taskModel.description),
                 ],
               ),
               const Spacer(),
               CustomIconButton(
                 icon: Icons.edit,
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (BuildContext context) {
+                        return const EditNoteView();
+                      },
+                    ),
+                  );
+                },
               ),
               CustomIconButton(icon: Icons.delete_outline, onPressed: () {}),
               CustomIconButton(
