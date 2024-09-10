@@ -7,9 +7,11 @@ import 'package:todo_app/widgets/custom_icon_button.dart';
 
 class ListViewItem extends StatelessWidget {
   final TaskModel taskModel;
+  final List<Widget> widgets;
   const ListViewItem({
     super.key,
     required this.taskModel,
+    required this.widgets,
   });
 
   @override
@@ -26,29 +28,13 @@ class ListViewItem extends StatelessWidget {
           child: Row(
             children: [
               Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(taskModel.title),
                   Text(taskModel.description),
                 ],
               ),
-              const Spacer(),
-              CustomIconButton(
-                icon: Icons.edit,
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (BuildContext context) {
-                        return const EditNoteView();
-                      },
-                    ),
-                  );
-                },
-              ),
-              CustomIconButton(icon: Icons.delete_outline, onPressed: () {}),
-              CustomIconButton(
-                icon: Icons.check_circle_outline_outlined,
-                onPressed: () {},
-              )
+              ...widgets,
             ],
           ),
         ));

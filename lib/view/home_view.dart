@@ -3,7 +3,9 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:todo_app/model/task_model.dart';
 import 'package:todo_app/utils/app_color.dart';
+import 'package:todo_app/view/edit_note_view.dart';
 import 'package:todo_app/widgets/custom_floating_action_button.dart';
+import 'package:todo_app/widgets/custom_icon_button.dart';
 import 'package:todo_app/widgets/list_view_item.dart';
 
 class HomeView extends StatefulWidget {
@@ -15,64 +17,51 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   int selectedIndex = 0;
-  List<Map<String, dynamic>> jsonTasks = [
-    {
-      "title": "Task 1",
-      "description": "Description 1",
-      "id": 1,
-      "isDone": 0,
-    },
-    {
-      "title": "Task 2",
-      "description": "Description 2",
-      "id": 1,
-      "isDone": 0,
-    },
-    {
-      "title": "Task 3",
-      "description": "Description 3",
-      "id": 1,
-      "isDone": 0,
-    },
-    {
-      "title": "Task 4",
-      "description": "Description 4",
-      "id": 1,
-      "isDone": 0,
-    },
-    {
-      "title": "Task 5",
-      "description": "Description 5",
-      "id": 1,
-      "isDone": 0,
-    },
-    {
-      "title": "Task 1",
-      "description": "Description 1",
-      "id": 1,
-      "isDone": 0,
-    }
-  ];
 
-  List<TaskModel> taskList = [];
   List<Widget> bodyWidgets = [];
+  List<TaskModel> completeTasks = [];
   @override
   void initState() {
-    taskList = jsonTasks.map((e) => TaskModel.fromJson(e)).toList();
+    completeTasks.addAll(TaskModel.tasks.where((e) => e.isDone == 1));
+
     bodyWidgets = [
       ListView.builder(
-        itemCount: jsonTasks.length,
+        itemCount: TaskModel.tasks.length,
         itemBuilder: (context, index) {
           return ListViewItem(
-            taskModel: taskList[index],
+            taskModel: TaskModel.tasks[index],
+            widgets: [
+              const Spacer(),
+              CustomIconButton(
+                icon: Icons.edit,
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (BuildContext context) {
+                        return const EditNoteView();
+                      },
+                    ),
+                  );
+                },
+              ),
+              CustomIconButton(icon: Icons.delete_outline, onPressed: () {}),
+              CustomIconButton(
+                icon: Icons.check_circle_outline_outlined,
+                onPressed: () {},
+              )
+            ],
           );
         },
       ),
-      Container(
-        color: Colors.red,
-        width: double.infinity,
-        height: double.infinity,
-      )
+      ListView.builder(
+        itemCount: completeTasks.length,
+        itemBuilder: (context, index) {
+          return ListViewItem(
+            taskModel: completeTasks[index],
+            widgets: const [],
+          );
+        },
+      ),
     ];
     super.initState();
   }
@@ -85,8 +74,8 @@ class _HomeViewState extends State<HomeView> {
         actions: [
           IconButton(
             onPressed: () {
-              print(jsonTasks[0]["title"]);
-              log(taskList[0].title);
+              // print(jsonTasks[0]["title"]);
+              // log(taskList[0].title);
             },
             icon: const Icon(
               Icons.notifications,

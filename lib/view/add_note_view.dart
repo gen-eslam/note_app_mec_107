@@ -26,6 +26,7 @@ class AddNoteView extends StatelessWidget {
           width: double.infinity,
           padding: const EdgeInsets.all(8),
           child: Column(
+            
             children: [
               const TextField(
                 decoration: InputDecoration(
