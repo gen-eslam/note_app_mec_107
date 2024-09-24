@@ -1,13 +1,13 @@
 class TaskModel {
-  int id;
+  int? id;
   String title;
   String description;
-  int isDone;
+  int isComplete;
   TaskModel({
-    required this.id,
+    this.id,
     required this.title,
     required this.description,
-    required this.isDone,
+    required this.isComplete,
   });
 
   factory TaskModel.fromJson(Map<String, dynamic> json) {
@@ -15,7 +15,15 @@ class TaskModel {
       id: json['id'],
       title: json['title'],
       description: json['description'],
-      isDone: json['isDone'],
+      isComplete: json['isComplete']??-1,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "title": title,
+      "description": description,
+      "isComplete": isComplete
+    };
   }
 }
